@@ -1,0 +1,3 @@
+Possible Future Features:
+
+- check for case sensitive criteria

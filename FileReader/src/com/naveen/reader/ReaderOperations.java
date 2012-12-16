@@ -4,7 +4,8 @@ import java.io.File;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.regex.Pattern;
+
 
 public class ReaderOperations {
 
@@ -26,6 +27,9 @@ public class ReaderOperations {
 	 */
 	public void filter(String criteria, String ext) {		
 		System.out.println("ext:"+ext + "crit" + criteria);
+		Pattern pat = Pattern.compile("Wire");
+		
+		
 		System.out.println("filteringgggg....." + folder_path);
 		try (DirectoryStream<Path> search_dir = Files
 				.newDirectoryStream(folder_path);) {
@@ -33,12 +37,15 @@ public class ReaderOperations {
 				if(p.toFile().getName().endsWith(ext)){
 					System.out.println("before split");
 					System.out.println(p);
-					String[] name_parts = p.toString().split(criteria);
+//					String[] name_parts = p.toString().split("Wire");
+					String[] name_parts = pat.split(p.toString());
 					System.out.println("after split");
 					StringBuilder new_name = new StringBuilder();
+					
 					for(String s : name_parts){						
 						new_name.append(s);
 					}					
+					System.out.println(new_name);
 					p.toFile().renameTo(new File(new_name.toString()));
 				}
 			}

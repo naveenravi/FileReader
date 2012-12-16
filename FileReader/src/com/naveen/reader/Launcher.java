@@ -22,13 +22,14 @@ public class Launcher {
 		System.out.println("Enter the extension of the files");
 		String ext = input.nextLine();
 		System.out.println("Enter your criteria for filtering:");
-		String[] criteria = input.nextLine().split("\\*");
-//		String temp = input.nextLine().replaceAll("\\*",".");
-//		String criteria[] = temp.split(regex)		
-		for (String criterion : criteria) {
-			System.out.println("criterion"+criterion);
-			rop_obj.filter(criterion, ext);
-		}
+		
+		// get the criteria
+        // replace the * with .
+		
+		String regex = input.nextLine().replaceAll("[*]", ".*");
+//		System.out.println("regex");
+				
+		rop_obj.filter(regex, ext);
 		input.close();
 		System.out.println("bye");
 
