@@ -27,7 +27,7 @@ public class ReaderOperations {
 	 */
 	public void filter(String criteria, String ext) {		
 		System.out.println("ext:"+ext + "crit" + criteria);
-		Pattern pat = Pattern.compile("Wire");
+		Pattern pat = Pattern.compile(criteria);
 		
 		
 		System.out.println("filteringgggg....." + folder_path);
@@ -39,9 +39,8 @@ public class ReaderOperations {
 					System.out.println(p);
 //					String[] name_parts = p.toString().split("Wire");
 					String[] name_parts = pat.split(p.toString());
-					System.out.println("after split");
-					StringBuilder new_name = new StringBuilder();
-					
+					System.out.println("after split with criteria:"+criteria);
+					StringBuilder new_name = new StringBuilder();					
 					for(String s : name_parts){						
 						new_name.append(s);
 					}					
