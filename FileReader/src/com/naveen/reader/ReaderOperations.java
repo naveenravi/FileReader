@@ -27,31 +27,31 @@ public class ReaderOperations {
 	 */
 	public void filter(String criteria, String ext) {		
 		System.out.println("ext:"+ext + "crit" + criteria);
-		Pattern pat = Pattern.compile(criteria);
+		
+		Pattern myPattern = Pattern.compile(criteria);
 		
 		
 		System.out.println("filteringgggg....." + folder_path);
+		
 		try (DirectoryStream<Path> search_dir = Files
 				.newDirectoryStream(folder_path);) {
-			for (Path p : search_dir) {				
-				if(p.toFile().getName().endsWith(ext)){
-					System.out.println("before split");
-					System.out.println(p);
-//					String[] name_parts = p.toString().split("Wire");
-					String[] name_parts = pat.split(p.toString());
-					System.out.println("after split with criteria:"+criteria);
+			
+			for (Path path : search_dir) {			
+				
+				if(path.toFile().getName().endsWith(ext)){
+					System.out.println("before split path :"+path);					
+					String[] name_parts = myPattern.split(path.toString());
+					System.out.println("after split with criteria :"+criteria);
 					StringBuilder new_name = new StringBuilder();					
 					for(String s : name_parts){						
 						new_name.append(s);
 					}					
 					System.out.println(new_name);
-					p.toFile().renameTo(new File(new_name.toString()));
+					path.toFile().renameTo(new File(new_name.toString()));
 				}
 			}
 		} catch (Exception e) {
-
+             e.printStackTrace();
 		}
-
 	}
-
 }

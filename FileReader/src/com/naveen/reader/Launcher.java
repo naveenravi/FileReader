@@ -28,18 +28,13 @@ public class Launcher {
 		if (criteria.contains("*")) {
 			criterion = criteria.split("[*]");
 			System.out.println("printing the criterias");
-			int i = 0;
 			for (String criter : criterion) {
-				System.out.println("i:" + i + "criter" + criter);
-				i++;
 				rop_obj.filter(criter, ext);
 			}
-		} else
+		} else{
 			rop_obj.filter(criteria, ext);
-
+		}
 		input.close();
 		System.out.println("bye");
-
 	}
-
 }
