@@ -25,10 +25,8 @@ public class ReaderOperations {
 	 * @param ext
 	 * @return results
 	 */
-	public void filter(Path folder_path) {
-		System.out.println(criterion);
-		ArrayList<Path> results = new ArrayList<>();
-		System.out.println("filteringgggg....." + folder_path);
+	public void filter(Path folder_path) {		
+		ArrayList<Path> results = new ArrayList<>();		
 		try (DirectoryStream<Path> search_dir = Files
 				.newDirectoryStream(folder_path);) {
 			String fileName;
@@ -40,7 +38,6 @@ public class ReaderOperations {
 					results.add(path);
 				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,8 +52,7 @@ public class ReaderOperations {
 	 */
 	public void renameFiles() {
         ArrayList<Path> modifiedPaths = new ArrayList<>();
-		for (Path filePath : filteredPaths) {
-			System.out.println("renaming for ::::" + filePath);
+		for (Path filePath : filteredPaths) {			
 			for (String criterion : criterias) {
 				if (!criterion.contentEquals(extension)) {
 					Pattern myPattern = Pattern.compile(criterion);
@@ -66,8 +62,7 @@ public class ReaderOperations {
 					for (String part : parts) {
 						rebuilder.append(part);
 					}
-					try {
-						System.out.println("renaming for criter: " + criterion);
+					try {						
 						filePath = Files.move(filePath,
 								filePath.resolveSibling(rebuilder.toString()));
 					} catch (IOException e) {
@@ -78,8 +73,7 @@ public class ReaderOperations {
 							.println("yet to implement for criteria same as extension");
 				}
 			}
-			modifiedPaths.add(filePath);
-			System.out.println("final modified name:::" + filePath);			
+			modifiedPaths.add(filePath);						
 		}
 		filteredPaths.clear();
 		filteredPaths = modifiedPaths;

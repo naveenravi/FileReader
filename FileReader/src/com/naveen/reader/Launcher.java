@@ -2,10 +2,10 @@ package com.naveen.reader;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -34,7 +34,6 @@ public class Launcher extends Application {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Welcome");
-		ArrayList<Path> filter_results = new ArrayList<>();
 		launch(args);
 		System.out.println("bye");
 	}
@@ -58,10 +57,12 @@ public class Launcher extends Application {
 		mygrid.add(location_label, 0, 1);
 		final TextField locationTf = new TextField();
 		mygrid.add(locationTf, 1, 1);
+
 		Label criterion_label = new Label("Enter the Criteria:");
 		mygrid.add(criterion_label, 0, 2);
 		final TextField criterionTf = new TextField();
 		mygrid.add(criterionTf, 1, 2);
+
 		Label extension_label = new Label("Enter the Extension of the files:");
 		mygrid.add(extension_label, 0, 3);
 		final TextField extensionTf = new TextField();
@@ -77,9 +78,9 @@ public class Launcher extends Application {
 		Button renameBtn = new Button("Rename");
 		btn_box.getChildren().add(filterBtn);
 		filterBtn.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent arg0) {
+				notify.clear();
 				rdrObj.setExtension(extensionTf.getText());
 				prepareRegex(criterionTf.getText());
 				rdrObj.filter(Paths.get(locationTf.getText()));
@@ -91,34 +92,35 @@ public class Launcher extends Application {
 		});
 		btn_box.getChildren().add(renameBtn);
 		renameBtn.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent arg0) {
-                  rdrObj.renameFiles();
-                  notify.clear();
-                  notify.appendText("FILES HAVE BEEN MODIFIED");
-                  notify.appendText("\\\n");
-                  for (Path path : rdrObj.getFilteredPaths()) {
-  					notify.appendText(path.toString());
-  					notify.appendText("\\\n");
-  				}
+				rdrObj.renameFiles();
+				notify.clear();
+				notify.appendText("FILES HAVE BEEN MODIFIED");
+				notify.appendText("\\\n");
+				for (Path path : rdrObj.getFilteredPaths()) {
+					notify.appendText(path.toString());
+					notify.appendText("\\\n");
+				}
 			}
 		});
 		mygrid.add(btn_box, 1, 4);
 		HBox btn_box2 = new HBox(10);
-		
 		btn_box2.setAlignment(Pos.CENTER);
 		Button exitBtn = new Button("Exit");
 		exitBtn.setMinWidth(169);
+		exitBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				Platform.exit();
+			}
+		});
 		btn_box2.getChildren().add(exitBtn);
-		mygrid.add(exitBtn, 1,8,2,1);
-		
-		
-		
+		mygrid.add(exitBtn, 1, 8, 2, 1);
+
 		Scene scene = new Scene(mygrid, 700, 475);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
 	}
 
 	/**
