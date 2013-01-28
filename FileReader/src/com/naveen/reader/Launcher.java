@@ -1,5 +1,6 @@
 package com.naveen.reader;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Pattern;
@@ -17,9 +18,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -53,11 +57,27 @@ public class Launcher extends Application {
 		welcome.setFont(Font.font("Tahoma", FontWeight.MEDIUM, 20));
 		mygrid.add(welcome, 0, 0, 2, 1);
 
-		Label location_label = new Label("Enter the location:");
+		Label location_label = new Label("Enter the location of Folder:");
 		mygrid.add(location_label, 0, 1);
 		final TextField locationTf = new TextField();
 		mygrid.add(locationTf, 1, 1);
 
+				
+		VBox vbox = new VBox(10);
+		vbox.setAlignment(Pos.TOP_RIGHT);
+		Button folderLocBtn = new Button("Browse 'n' Select");
+		vbox.getChildren().add(folderLocBtn);
+		folderLocBtn.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent event) {				
+				DirectoryChooser dc = new DirectoryChooser();				
+				File folder = dc.showDialog(null);
+				locationTf.setText(folder.getPath());
+				
+			}
+		});
+		mygrid.add(vbox, 2,1,1,3);
+		
 		Label criterion_label = new Label("Enter the Criteria:");
 		mygrid.add(criterion_label, 0, 2);
 		final TextField criterionTf = new TextField();
